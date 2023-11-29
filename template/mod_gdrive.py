@@ -10,10 +10,10 @@ W = '\033[0m'  # white
 redirect = os.getenv('REDIRECT')
 
 if redirect is None:
-    redirect = input(G + '[+]' + C + ' Enter GDrive File URL : ' + W)
+    redirect = input(f'{G}[+]{C} Enter GDrive File URL : {W}')
 else:
-    utils.print(f'{G}[+] {C}GDrive File URL :{W} '+redirect)
-        
+    utils.print(f'{G}[+] {C}GDrive File URL :{W} {redirect}')
+
 with open('template/gdrive/index_temp.html', 'r') as temp_index:
     temp_index_data = temp_index.read()
     temp_index_data = temp_index_data.replace('REDIRECT_URL', redirect)

@@ -163,11 +163,10 @@ def template_select(site):
 
 	try:
 		selected = -1
-		if templateNum is not None:
-			if templateNum >= 0 and templateNum < len(templ_json['templates']):
-				selected = templateNum
-		else:
+		if templateNum is None:
 			selected = int(input(f'{G}[>] {W}'))
+		elif templateNum >= 0 and templateNum < len(templ_json['templates']):
+			selected = templateNum
 		if selected < 0:
 			print()
 			utils.print(f'{R}[-] {C}Invalid Input!{W}')
@@ -195,7 +194,7 @@ def template_select(site):
 	jsdir = f'template/{templ_json["templates"][selected]["dir_name"]}/js'
 	if not path.isdir(jsdir):
 		mkdir(jsdir)
-	shutil.copyfile('js/location.js', jsdir + '/location.js')
+	shutil.copyfile('js/location.js', f'{jsdir}/location.js')
 	return site
 
 
@@ -212,35 +211,33 @@ def server():
 		except ConnectionRefusedError:
 			port_free = True
 
-	if not port_free and path.exists(PID_FILE):
-		with open(PID_FILE, 'r') as pid_info:
-			pid = int(pid_info.read().strip())
-			try:
-				old_proc = psutil.Process(pid)
-				utils.print(f'{C}[ {R}✘{C} ]{W}')
-				utils.print(f'{Y}[!] Old instance of php server found, restarting...{W}')
-				utils.print(f'{G}[+] {C}Starting PHP Server...{W}', end='')
+	if not port_free:
+		if path.exists(PID_FILE):
+			with open(PID_FILE, 'r') as pid_info:
+				pid = int(pid_info.read().strip())
 				try:
-					sleep(1)
-					if old_proc.status() != 'running':
-						old_proc.kill()
-					else:
-						utils.print(f'{C}[ {R}✘{C} ]{W}')
-						utils.print(f'{R}[-] {C}Unable to kill php server process, kill manually{W}')
-						sys.exit()
+					old_proc = psutil.Process(pid)
+					utils.print(f'{C}[ {R}✘{C} ]{W}')
+					utils.print(f'{Y}[!] Old instance of php server found, restarting...{W}')
+					utils.print(f'{G}[+] {C}Starting PHP Server...{W}', end='')
+					try:
+						sleep(1)
+						if old_proc.status() != 'running':
+							old_proc.kill()
+						else:
+							utils.print(f'{C}[ {R}✘{C} ]{W}')
+							utils.print(f'{R}[-] {C}Unable to kill php server process, kill manually{W}')
+							sys.exit()
+					except psutil.NoSuchProcess:
+						pass
 				except psutil.NoSuchProcess:
-					pass
-			except psutil.NoSuchProcess:
-				utils.print(f'{C}[ {R}✘{C} ]{W}')
-				utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
-				sys.exit()
-	elif not port_free and not path.exists(PID_FILE):
-		utils.print(f'{C}[ {R}✘{C} ]{W}')
-		utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
-		sys.exit()
-	elif port_free:
-		pass
-
+					utils.print(f'{C}[ {R}✘{C} ]{W}')
+					utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
+					sys.exit()
+		elif not path.exists(PID_FILE):
+			utils.print(f'{C}[ {R}✘{C} ]{W}')
+			utils.print(f'{R}[-] {C}Port {W}{port} {C}is being used by some other service.{W}')
+			sys.exit()
 	with open(LOG_FILE, 'w') as phplog:
 		proc = subp.Popen(cmd, stdout=phplog, stderr=phplog)
 		with open(PID_FILE, 'w') as pid_out:

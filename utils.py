@@ -9,7 +9,7 @@ def downloadImageFromUrl(url, path):
     if not url.startswith('http'):
         return None
     img_data = requests.get(url).content
-    fPath = path+'/'+str(uuid.uuid1())+'.jpg'
+    fPath = f'{path}/{str(uuid.uuid1())}.jpg'
     with open(fPath, 'wb') as handler:
         handler.write(img_data)
     return fPath

